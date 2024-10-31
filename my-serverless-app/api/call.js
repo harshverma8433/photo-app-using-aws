@@ -12,7 +12,8 @@ const statement = (statusCode , data) => {
             'Access-control-Allow-Origin' : "*",
             'Access-control-Allow-Methods' : "PUT , POST,DELETE,GET",
             'Access-control-Allow-Credentials' : true,
-            'Content-type' : "application/json"
+            'Content-type' : "application/json",
+            'userEmail' : userEmail
 
 
         }

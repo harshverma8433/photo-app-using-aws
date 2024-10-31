@@ -47,6 +47,83 @@ functions:
             origin : "*"
             headers : ${self.custom.allowedHeaders}
 
+# update data
+  updateData:
+    handler: api/update.certificate
+    environment : 
+      CERTIFICATE_TABLE_NAME : certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED : 1
+    iamRoleStatements :
+      - Effect : "Allow"
+        Action :
+          - "dynamodb:updateitem"
+        Resource: !GetAtt certificateTable.Arn
+    events:
+      - http:
+          path: certificateList/{certificate_id}
+          method: put
+          cors:
+            origin : "*"
+            headers : ${self.custom.allowedHeaders}
+
+# Delete Request
+  deleteRequest:
+    handler: api/deleteFlag.certificate
+    environment : 
+      CERTIFICATE_TABLE_NAME : certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED : 1
+    iamRoleStatements :
+      - Effect : "Allow"
+        Action :
+          - "dynamodb:updateitem"
+        Resource: !GetAtt certificateTable.Arn
+    events:
+      - http:
+          path: certificateList/deleteFlag/{certificate_id}
+          method: put
+          cors:
+            origin : "*"
+            headers : ${self.custom.allowedHeaders}
+
+# get all data
+  getAllData:
+    handler: api/getAllCertificates.certificate
+    environment : 
+      CERTIFICATE_TABLE_NAME : certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED : 1
+    iamRoleStatements :
+      - Effect : "Allow"
+        Action :
+          - "dynamodb:Scan"
+        Resource: !GetAtt certificateTable.Arn
+    events:
+      - http:
+          path: certificateList/getallcertificates
+          method: get
+          cors:
+            origin : "*"
+            headers : ${self.custom.allowedHeaders}
+
+
+# Get Delete Data
+  getDeletedata:
+    handler: api/deleteData.certificate
+    environment : 
+      CERTIFICATE_TABLE_NAME : certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED : 1
+    iamRoleStatements :
+      - Effect : "Allow"
+        Action :
+          - "dynamodb:updateitem"
+        Resource: !GetAtt certificateTable.Arn
+    events:
+      - http:
+          path: certificateList/deletedata
+          method: get
+          cors:
+            origin : "*"
+            headers : ${self.custom.allowedHeaders}
+
 resources:
   Resources:
     certificateTable:
