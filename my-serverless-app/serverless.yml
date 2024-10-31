@@ -104,25 +104,45 @@ functions:
             origin : "*"
             headers : ${self.custom.allowedHeaders}
 
-
 # Get Delete Data
   getDeletedata:
     handler: api/deleteData.certificate
-    environment : 
-      CERTIFICATE_TABLE_NAME : certificateTable
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED : 1
-    iamRoleStatements :
-      - Effect : "Allow"
-        Action :
-          - "dynamodb:updateitem"
+    environment: 
+      CERTIFICATE_TABLE_NAME: certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:Scan" # Correct action for scanning
         Resource: !GetAtt certificateTable.Arn
     events:
       - http:
           path: certificateList/deletedata
           method: get
           cors:
-            origin : "*"
-            headers : ${self.custom.allowedHeaders}
+            origin: "*"
+            headers: ${self.custom.allowedHeaders}
+
+
+# Delete Certificate
+  deleteCertificate:
+    handler: api/deleteCertificate.certificate
+    environment: 
+      CERTIFICATE_TABLE_NAME: certificateTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:DeleteItem" # Correct action for scanning
+        Resource: !GetAtt certificateTable.Arn
+    events:
+      - http:
+          path: certificateList/deleteCertificate/{certificate_id}
+          method: delete
+          cors:
+            origin: "*"
+            headers: ${self.custom.allowedHeaders}
+
 
 resources:
   Resources:
